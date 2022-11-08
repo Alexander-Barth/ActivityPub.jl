@@ -1,7 +1,7 @@
 # ActivityPub
 
 
-Minimalist ActivityPub client in julia.
+Minimalist and experimental ActivityPub client in julia.
 ActivityPub is the protocol used by Mastodon.
 The client so far only support posting messages (with additional media such as images).
 Pull requests are welcome!
