@@ -20,6 +20,14 @@ Connect to activity pub server at `baseurl` using the provided credentials.
 Note: for Mastodon username is your email (not your handle).
 The API call succeeds even if you credentials are wrong. Use
 `verify_credentials` to check the username and password.
+
+When the server is overloaded it may fail with an `EOFError` or with the error
+message:
+
+```The provided authorization grant is invalid, expired,
+revoked, does not match the redirection URI used in the
+authorization request, or was issued to another client`.
+```
 """
 function Connection(
     baseurl::AbstractString,
@@ -46,6 +54,7 @@ function Connection(
                   JSON3.write(params))
 
     body =  String(r.body)
+    @debug "response api/v1/apps" r.status body
 
     data = JSON3.read(body)
 
@@ -59,7 +68,8 @@ function Connection(
         "password" => password,
     )
 
-    @debug "token" params2
+    @debug "form data oauth/token" params2
+
     r = HTTP.post(baseurl * "/oauth/token",
                   [],
                   HTTP.Form(params2))
@@ -68,7 +78,9 @@ function Connection(
     data = JSON3.read(body)
     access_token = data.access_token
 
-    @show access_token
+    @debug "response oauth/token" r.status body
+
+    @debug "access_token" access_token
     return Connection(baseurl,access_token)
 end
 
@@ -81,7 +93,8 @@ function verify_credentials(conn::Connection)
     url = conn.baseurl * "/api/v1/accounts/verify_credentials"
     r = HTTP.get(url, headers, status_exception = false)
 
-    body =  String(r.body)
+    body = String(r.body)
+    @debug "response accounts/verify_credentials" r.status body
     return JSON3.read(body)
 end
 
