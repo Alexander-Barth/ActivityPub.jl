@@ -1,8 +1,9 @@
 # ActivityPub
 
 
-Minimalist ActivityPub client for [julia](https://julialang.org/).
+Minimalist and experimental ActivityPub client for [julia](https://julialang.org/).
 ActivityPub is the protocol used by [Mastodon](https://docs.joinmastodon.org/).
+
 The client so far only support posting messages (with additional media such as images).
 Pull requests are welcome!
 
