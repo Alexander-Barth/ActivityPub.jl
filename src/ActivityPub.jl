@@ -163,5 +163,43 @@ function post_status(
     return response
 end
 
+"""
+    id = ActivityPub.account_id(conn,username::AbstractString)
+
+Get the `id` from a user name (e.g. `@FooBar`) for the connect `conn` .
+"""
+function account_id(conn,username::AbstractString)
+    headers = Dict(
+        "Authorization" => "Bearer $(conn.access_token)",
+    )
+
+    url = conn.baseurl * "/api/v1/accounts/lookup?acct=$username"
+    r = HTTP.get(url,headers)
+    body =  String(r.body)
+    response = JSON3.read(body)
+
+    return response.id
+end
+
+"""
+    statuses = ActivityPub.statuses(conn,account_id)
+
+Get a list of all statuses of the accound with the `id` of the connect `conn`.
+Note the `account_id` is different from the username and can be obtained via
+`ActivityPub.account_id`.
+
+"""
+function statuses(conn,account_id)
+    headers = Dict(
+        "Authorization" => "Bearer $(conn.access_token)",
+    )
+
+    url = conn.baseurl * "/api/v1/accounts/$account_id/statuses/"
+    r = HTTP.get(url,headers)
+    body =  String(r.body)
+    response = JSON3.read(body)
+    return response
+end
+
 
 end # module ActivityPub
