@@ -31,4 +31,4 @@ response = ActivityPub.post_status(conn,status, media_ids = [media_id])
 
 ## Credits
 
-* Thanks to marvin8 for https://codeberg.org/MarvinsMastodonTools/minimal-activitypub
+* Thanks to marvin8 for https://codeberg.org/MarvinsMastodonTools/minimal-activitypub (git [commit](https://codeberg.org/marvinsmastodontools/minimal-activitypub/commit/aabbd45e68eb02700fed9be22efd4431cac36a75))
